@@ -1,7 +1,11 @@
+/*
+ * Code pulled from Sparkfun Redbot example code and cs.columbia.edu example code 
+ * for the VKMaker 2WD Smart Robot
+*/
 #include <RedBot.h>
 RedBotMotors motors;
 
-RedBotEncoder encoder = RedBotEncoder(A4,A5);  // initializes encoder on pins A2 and 10
+RedBotEncoder encoder = RedBotEncoder(A4,A5);  // initializes encoder on pins A4 and A5
 int countsPerRev = 4;   // 4 pairs of N-S x 48:1 gearbox = 192 ticks per wheel rev
 
 // variables used to store the left and right encoder counts.
@@ -51,9 +55,8 @@ void setup() {
 
 void loop() {
   
-  encoder.clearEnc(BOTH);  // Reset the counters.
   go(L,255);
-  go(R,210);
+  go(R,255);
   lCount = encoder.getTicks(LEFT);    // read the left motor encoder
   rCount = encoder.getTicks(RIGHT);   // read the right motor encoder
 
@@ -61,8 +64,8 @@ void loop() {
   Serial.print("\t");
   Serial.println(rCount);
 
-  if ((lCount >= countsPerRev) || (rCount >= countsPerRev) )
+  if ((lCount > countsPerRev) || (rCount > countsPerRev) )
    {
-    motors.brake();
+    encoder.clearEnc(BOTH);  // Reset the counters.
    }
 }
